@@ -11,8 +11,6 @@
         "test": "vitest --run",
         "test:watch": "vitest --reporter=verbose",
         "test:coverage": "vitest --run --coverage",
-        "test:coverage:html": "vitest --run --coverage --coverage.reporter=html && echo 'See coverage/index.html'",
-        "test:ui": "vitest --ui --coverage.enabled=true",
         "lint": "yarn eslint .",
         "format": "yarn prettier --write .",
         "format:check": "yarn prettier --check .",
@@ -20,11 +18,8 @@
     },
     "dependencies": {
         "cors": "^2.8.5",
-        "dotenv": "^16.4.5",
         "express": "^4.19.2",
-        "morgan": "^1.10.0",
-        "pg": "^8.12.0",
-        "zod": "^3.23.8"
+        "morgan": "^1.10.0"
     },
     "devDependencies": {
         "@eslint/js": "^9.6.0",
