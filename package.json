@@ -9,8 +9,6 @@
         "start": "node src/server.js",
         "dev": "nodemon src/server.js",
         "test": "vitest --run",
-        "test:watch": "vitest --reporter=verbose",
-        "test:coverage": "vitest --run --coverage",
         "lint": "yarn eslint .",
         "format": "yarn prettier --write .",
         "format:check": "yarn prettier --check .",
