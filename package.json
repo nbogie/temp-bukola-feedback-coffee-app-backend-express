@@ -1,9 +1,9 @@
 {
-    "name": "academy-express-api-starter-js",
+    "name": "coffee-app-backend",
     "version": "1.0.0",
     "type": "module",
     "main": "src/server.js",
-    "author": "nbogie",
+    "author": "bomokehinde",
     "license": "MIT",
     "scripts": {
         "start": "node src/server.js",
