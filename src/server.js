@@ -91,6 +91,28 @@ app.patch("/customerdata/customer/:id", (req, res) => {
     res.json(customer);
 });
 
+// list stamp and free coffee of a specific customer
+
+// app.get("customerdata/cutomer/:id/stamps", (req, res) => {
+//     const id = req.params.id;
+
+// })
+
+//Redeem free coffee
+app.post("/customerdata/customer/:id/redeem", (req, res) => {
+    const id = parseInt(req.params.id);
+    const customer = customerData.find((oneCustomer) => oneCustomer.id === id);
+
+    if (customer.freeCoffee > 0) {
+        customer.freeCoffee--;
+        res.json({
+            message: `You have redeemed free coffee. You have ${customer.freeCoffee - 1} left to redeem`,
+        });
+    } else if (customer.freeCoffee === 0) {
+        res.json({ message: `You have no coffee to redeem` });
+    }
+});
+
 //use the environment variable PORT, or 4000 as a fallback
 const PORT = process.env.PORT ?? 4000;
 
