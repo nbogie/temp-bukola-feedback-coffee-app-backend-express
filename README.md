@@ -2,7 +2,7 @@
 
 This is a simple express.js API for managing a customer loyalty system where customers earn stamps and can redeem free coffees based on the number of stamps they have accumulated
 
-This project was done to complete a cosing challenge during my software engineering training with Academy.
+This project was done to complete a coding challenge during my software engineering training with Academy.
 
 ## What can the APIs do
 
