@@ -1,0 +1,118 @@
+{
+	"info": {
+		"_postman_id": "46790f04-47c4-41c3-8bd5-89281159462a",
+		"name": "coffee app project postman collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36928995"
+	},
+	"item": [
+		{
+			"name": "Get all customer data",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/customerdata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"customerdata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post one customer data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Babatope\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/customerdata",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"customerdata"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Patch one customer data with stamp and free coffee",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"stamps\": \"12\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/customerdata/customer/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"customerdata",
+						"customer",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post one customer data Copy",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4000/customerdata/customer/2/redeem",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"customerdata",
+						"customer",
+						"2",
+						"redeem"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
