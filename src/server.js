@@ -91,12 +91,17 @@ app.patch("/customerdata/customer/:id", (req, res) => {
     res.json(customer);
 });
 
-// list stamp and free coffee of a specific customer
+// list stamp and free coffee of a specific customer (this does not work)
 
-// app.get("customerdata/cutomer/:id/stamps", (req, res) => {
-//     const id = req.params.id;
+app.get("customerdata/cutomer/:id/stampsandfreecoffee", (req, res) => {
+    const id = req.params.id;
+    const customer = customerData.find((oneCustomer) => oneCustomer.id === id);
 
-// })
+    res.json({
+        stamps: customer.stamps,
+        freeCoffee: customer.freeCoffee || 0,
+    });
+});
 
 //Redeem free coffee
 app.post("/customerdata/customer/:id/redeem", (req, res) => {
