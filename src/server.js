@@ -1,6 +1,12 @@
 import cors from "cors";
 import express from "express";
 import morgan from "morgan";
+import {
+    findCustomerById,
+    findHighestCustomerId,
+    setCustomerStampsAndFreeCoffees,
+    tryToRedeemOneFreeCoffee,
+} from "./customerService.js";
 
 const app = express();
 
@@ -15,27 +21,39 @@ app.use(express.json());
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+/**
+ * @typedef {{id: string, name: string, stamps: number, freeCoffee: number}} CustomerData
+ */
 
+/**
+ * @type {CustomerData[]}
+ */
 let customerData = [
     {
-        id: 1,
+        id: "1",
         name: "Bukola",
         stamps: 5,
         freeCoffee: 0,
     },
 
     {
-        id: 2,
+        id: "2",
         name: "Lindsay",
         stamps: 2,
         freeCoffee: 3,
     },
 
     {
-        id: 3,
+        id: "3",
         name: "Neill",
         stamps: 0,
         freeCoffee: 1,
+    },
+    {
+        id: "4",
+        name: "Babatope",
+        stamps: 0,
+        freeCoffee: 0,
     },
 ];
 
@@ -44,12 +62,10 @@ app.get("/customerdata", (req, res) => {
     res.json(customerData);
 });
 
-//generated the id using the length of the array
+//generate an id to use for the next added customer
 const generateId = () => {
     const maxId =
-        customerData.length > 0
-            ? Math.max(...customerData.map((n) => Number(n.id)))
-            : 0;
+        customerData.length > 0 ? findHighestCustomerId(customerData) : 0;
     return String(maxId + 1);
 };
 
@@ -61,12 +77,17 @@ app.post("/customerdata", (req, res) => {
         return;
     }
 
+    /**
+     * @type CustomerData
+     */
     const oneCustomerData = {
         id: generateId(),
         name: body.name,
+        stamps: 0,
+        freeCoffee: 0,
     };
 
-    customerData = customerData.concat(oneCustomerData);
+    customerData.push(oneCustomerData);
     res.json(oneCustomerData);
 });
 
@@ -74,46 +95,39 @@ app.post("/customerdata", (req, res) => {
 app.patch("/customerdata/customer/:id", (req, res) => {
     const id = req.params.id;
     const body = req.body;
-    const customer = customerData.find((oneCustomer) => oneCustomer.id === id);
-    customer.stamps = body.stamps;
-
-    let stamps = body.stamps;
-    let freeCoffee = customer.freeCoffee || 0;
-
-    if (stamps >= 6) {
-        freeCoffee += Math.floor(stamps / 6);
-        stamps = stamps % 6;
+    const customer = findCustomerById(customerData, id);
+    if (!customer) {
+        res.status(404).json({ error: "no such customer" });
+        return;
     }
-
-    customer.stamps = stamps;
-    customer.freeCoffee = freeCoffee;
-
+    setCustomerStampsAndFreeCoffees(customer, body.stamps);
     res.json(customer);
 });
 
 // list stamp and free coffee of a specific customer (this does not work)
-
-app.get("customerdata/cutomer/:id/stampsandfreecoffee", (req, res) => {
+app.get("/customerdata/cutomer/:id/stampsandfreecoffee", (req, res) => {
     const id = req.params.id;
-    const customer = customerData.find((oneCustomer) => oneCustomer.id === id);
-
-    res.json({
-        stamps: customer.stamps,
-        freeCoffee: customer.freeCoffee || 0,
-    });
+    const customer = findCustomerById(customerData, id);
+    if (!customer) {
+        res.status(404).json({ error: "no such customer" });
+        return;
+    }
+    res.json(customer);
 });
 
 //Redeem free coffee
-app.post("/customerdata/customer/:id/redeem", (req, res) => {
-    const id = parseInt(req.params.id);
-    const customer = customerData.find((oneCustomer) => oneCustomer.id === id);
 
-    if (customer.freeCoffee > 0) {
-        customer.freeCoffee--;
+app.post("/customerdata/customer/:id/redeem", (req, res) => {
+    const id = req.params.id;
+    const customer = findCustomerById(customerData, id);
+
+    const success = tryToRedeemOneFreeCoffee(customer);
+
+    if (success) {
         res.json({
-            message: `You have redeemed free coffee. You have ${customer.freeCoffee - 1} left to redeem`,
+            message: `You have redeemed free coffee. You have ${customer.freeCoffee} left to redeem`,
         });
-    } else if (customer.freeCoffee === 0) {
+    } else {
         res.json({ message: `You have no coffee to redeem` });
     }
 });
